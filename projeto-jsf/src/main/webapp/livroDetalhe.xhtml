@@ -1,0 +1,84 @@
+<ui:composition template="template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:define name="titulo">#{lojaBean.livroSelecionado.nome}</ui:define>
+	<ui:define name="conteudo">
+		<h:form
+			style="display:flex; justify-content:center; padding:50px; background-color:#f9f9f9;">
+			<div
+				style="display: flex; gap: 40px; background: white; border-radius: 15px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); padding: 40px; width: 85%;">
+				<!-- 📘 Capa do livro -->
+				<div style="flex: 1; text-align: center;">
+					<h:graphicImage value="#{lojaBean.livroSelecionado.imagem}"
+						alt="Capa do Livro"
+						style="width:320px; height:480px; border-radius:10px; object-fit:cover; box-shadow:0 2px 8px rgba(0,0,0,0.2);" />
+					<h:outputText value="#{lojaBean.livroSelecionado.autor}"
+						style="display:block; margin-top:15px; font-weight:bold; color:#555;" />
+				</div>
+				<!-- 📖 Detalhes -->
+				<div style="flex: 2; display: flex; flex-direction: column;">
+					<h2 style="font-size: 2.3em; color: #2c2c2c; margin-bottom: 10px;">#{lojaBean.livroSelecionado.nome}</h2>
+					<h3 style="font-size: 1.3em; color: #616161; margin-bottom: 25px;">por
+						#{lojaBean.livroSelecionado.autor}</h3>
+					<!-- ⭐ Sinopse -->
+					<p
+						style="font-size: 1.1em; color: #444; line-height: 1.8; text-align: justify; margin-bottom: 30px;">
+						Em <b>#{lojaBean.livroSelecionado.nome}</b>, o autor <b>#{lojaBean.livroSelecionado.autor}</b>
+						nos conduz por uma jornada envolvente e emocionante. Esta obra
+						explora temas como coragem, amizade e autodescoberta, combinando
+						uma narrativa rica com reflexões profundas sobre a vida. Perfeito
+						para leitores que buscam inspiração e histórias que ficam na
+						memória.
+					</p>
+					<!-- 📚 Detalhes técnicos -->
+					<h4 style="color: #3949AB; font-size: 1.2em; margin-bottom: 10px;">Detalhes
+						do Livro</h4>
+					<ul
+						style="list-style: none; padding: 0; color: #555; font-size: 1.05em;">
+						<li><b>Editora:</b> Nova Leitura</li>
+						<li><b>Ano de Publicação:</b> 2023</li>
+						<li><b>Gênero:</b> Romance / Drama</li>
+						<li><b>Páginas:</b> 328</li>
+						<li><b>Idioma:</b> Português</li>
+					</ul>
+					<!-- 💲 Preço -->
+					<h3 style="font-size: 1.8em; color: #2E7D32; margin-top: 25px;">
+						R$
+						<h:outputText value="#{lojaBean.livroSelecionado.preco}">
+						
+						</h:outputText>
+					</h3>
+					<!-- 🛒 Botões -->
+					<div style="margin-top: 25px;">
+						<p:commandButton value="Adicionar ao Carrinho"
+							icon="pi pi-shopping-cart"
+							actionListener="#{lojaBean.adicionarAoCarrinho(lojaBean.livroSelecionado)}"
+							update="@form"
+							style="background-color:#3949AB; border:none; font-size:1.1em; padding:12px 30px; border-radius:8px;" />
+						<p:commandButton value="Favoritar" icon="pi pi-heart"
+							actionListener="#{lojaBean.adicionarWishlist(lojaBean.livroSelecionado)}"
+							update="@form"
+							style="margin-left:15px; background-color:#E91E63; border:none; font-size:1.1em; padding:12px 28px; border-radius:8px;" />
+						<p:commandButton value="Voltar" icon="pi pi-arrow-left"
+							onclick="window.history.back(); return false;"
+							style="margin-left:15px; background-color:#E0E0E0; color:#333; border:none; font-size:1.1em; padding:12px 25px; border-radius:8px;" />
+					</div>
+					<!-- 💬 Avaliações -->
+					<div
+						style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">
+						<h4 style="color: #3949AB; font-size: 1.2em;">Avaliações dos
+							Leitores</h4>
+						<p style="color: #666; margin-top: 10px;">⭐️⭐️⭐️⭐️☆ (4.5 de 5
+							baseado em 132 avaliações)</p>
+						<p style="font-size: 1em; color: #555; font-style: italic;">
+							"Um dos melhores livros que li este ano. A história é emocionante
+							e inspiradora!" — <b>Ana C.</b>
+						</p>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>

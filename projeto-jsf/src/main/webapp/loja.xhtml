@@ -1,0 +1,33 @@
+<ui:composition template="template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="titulo">Loja</ui:define>
+
+    <ui:define name="conteudo">
+        <h:form style="text-align:center;">
+            <h2>Catálogo de Livros</h2>
+            
+
+            <p:dataGrid value="#{lojaBean.livros}" var="livro" columns="3" paginator="true" rows="6"
+                        styleClass="livros-grid" layout="grid" style="margin: 2rem auto;">
+
+                <p:panel style="padding:1rem; border-radius:10px;">
+                    <h:graphicImage value="#{livro.imagem}" width="150" height="220" style="border-radius:8px;"/>
+                    <h3>#{livro.nome}</h3>
+                    <p>#{livro.autor}</p>
+                    <h:outputText value="R$ #{livro.preco}" style="font-weight:bold;" />
+
+                    <br/>
+                    <p:commandButton value="Ver Detalhes"
+                                     action="#{lojaBean.verDetalhes(livro)}"
+                                     icon="pi pi-search"
+                                     styleClass="ui-button-secondary"
+                                     style="margin-top:0.5rem;" />
+                </p:panel>
+            </p:dataGrid>
+        </h:form>
+    </ui:define>
+</ui:composition>

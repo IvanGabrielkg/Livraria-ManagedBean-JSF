@@ -1,0 +1,74 @@
+<ui:composition template="template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="titulo">Lista de Desejos</ui:define>
+
+    <ui:define name="conteudo">
+        <h:form>
+            <h2 style="color:#E91E63;">💖 Minha Lista de Desejos</h2>
+
+            <p:messages autoUpdate="true" closable="true" />
+
+            <!-- Caso a lista esteja vazia -->
+            <h:panelGroup rendered="#{empty lojaBean.wishlist}">
+                <h3 style="text-align:center; color:gray; margin-top: 40px;">
+                    Sua lista de desejos está vazia...
+                </h3>
+                <div style="text-align:center; margin-top:20px;">
+                    <p:commandButton value="Voltar à loja"
+                                     icon="pi pi-arrow-left"
+                                     action="loja.xhtml?faces-redirect=true"
+                                     styleClass="ui-button-secondary" />
+                </div>
+            </h:panelGroup>
+
+            <!-- Caso haja livros na wishlist -->
+            <h:panelGroup rendered="#{not empty lojaBean.wishlist}">
+                <p:dataTable value="#{lojaBean.wishlist}" var="livro" style="margin-top:20px;">
+                    <p:column headerText="Capa">
+                        <h:graphicImage value="#{livro.imagem}" width="60" height="90" />
+                    </p:column>
+
+                    <p:column headerText="Título">
+                        <h:outputText value="#{livro.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Autor">
+                        <h:outputText value="#{livro.autor}" />
+                    </p:column>
+
+                    <p:column headerText="Preço (R$)">
+                        <h:outputText value="#{livro.preco}" />
+                    </p:column>
+
+                    <p:column headerText="Ações">
+                        <p:commandButton value="🛒 Mover p/ Carrinho"
+                                         icon="pi pi-shopping-cart"
+                                         actionListener="#{lojaBean.moverParaCarrinho(livro)}"
+                                         update="@form"
+                                         style="background-color:#3949AB; border:none;" />
+
+                        <p:spacer width="8"/>
+
+                        <p:commandButton icon="pi pi-times"
+                                         title="Remover"
+                                         actionListener="#{lojaBean.removerWishlist(livro)}"
+                                         update="@form"
+                                         style="background-color:#E53935; border:none;" />
+                    </p:column>
+                </p:dataTable>
+
+                <div style="text-align:right; margin-top:15px;">
+                    <p:commandButton value="🛍️ Continuar comprando"
+                                     icon="pi pi-arrow-left"
+                                     action="loja.xhtml?faces-redirect=true"
+                                     styleClass="ui-button-secondary" />
+                </div>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

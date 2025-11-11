@@ -1,0 +1,104 @@
+<ui:composition template="template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="titulo">Página Inicial</ui:define>
+
+    <ui:define name="conteudo">
+
+        <!-- 🔍 Barra de pesquisa -->
+        <h:form id="formPesquisa" style="display:flex; justify-content:center; margin:30px 0;">
+            <p:inputText value="#{lojaBean.termoPesquisa}"
+                         placeholder="Pesquisar livros..."
+                         style="width:60%; border-radius:25px; padding:12px 20px; font-size:1.1em; border:1px solid #ccc;" />
+            <p:commandButton icon="pi pi-search"
+                             action="#{lojaBean.pesquisar}"
+                             update="livrosPainel msgs"
+                             style="margin-left:10px; background-color:#3949AB; border:none; border-radius:50%; width:45px; height:45px;" />
+        </h:form>
+
+        <p:messages id="msgs" closable="true" style="margin-bottom:20px;" />
+
+        <!-- 🔎 Resultados da pesquisa -->
+        <h:panelGroup id="livrosPainel">
+            <ui:fragment rendered="#{lojaBean.pesquisou}">
+                <ui:fragment rendered="#{not empty lojaBean.resultadosPesquisa}">
+                    <h3 style="text-align:center; color:#3949AB;">Resultados da pesquisa:</h3>
+                    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:25px; margin-top:25px;">
+                        <ui:repeat value="#{lojaBean.resultadosPesquisa}" var="livro">
+                            <div style="width:220px; background:white; border-radius:15px; 
+                                        box-shadow:0 3px 8px rgba(0,0,0,0.1); text-align:center; padding:15px;">
+                                <h:graphicImage value="#{livro.imagem}" 
+                                                style="width:150px; height:200px; border-radius:10px;" />
+                                <h4 style="margin:10px 0 5px;">#{livro.nome}</h4>
+                                <p style="color:gray; margin:0;">#{livro.autor}</p>
+                                <p style="font-weight:bold; color:#3949AB; margin:10px 0;">#{lojaBean.formatarPreco(livro.preco)}</p>
+                                <p:commandButton value="Detalhes"
+                                                 action="#{lojaBean.verDetalhes(livro)}"
+                                                 styleClass="ui-button-outlined"
+                                                 style="width:100%; border-radius:25px;" />
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{empty lojaBean.resultadosPesquisa}">
+                    <h3 style="text-align:center;">Nenhum livro encontrado para "#{lojaBean.termoPesquisa}"</h3>
+                </ui:fragment>
+            </ui:fragment>
+        </h:panelGroup>
+<br/>
+<br/>
+        <!-- 🏷️ Categorias -->
+        <div style="margin-top:50px; text-align:left;">
+            <h3 style="font-size:1.6em; color:#3949AB; margin-bottom:20px;">Navegue por Categoria</h3>
+            <p:carousel value="#{lojaBean.categorias}" var="cat" numVisible="5" circular="true" autoplayInterval="0">
+                <p:panel style="text-align:center; background:white; border-radius:15px; 
+                                padding:20px; box-shadow:0 3px 8px rgba(0,0,0,0.08); transition:0.3s;">
+                    <i class="pi #{cat.icone}" style="font-size:2.5em; color:#3949AB; margin-bottom:10px;"></i><br/>
+                    <h:outputText value="#{cat.nome}" style="font-weight:bold; color:#333;" />
+                </p:panel>
+            </p:carousel>
+        </div>
+<br/>
+<br/>
+        <!-- 🌟 Livros em destaque -->
+        <h:form>
+            <div style="margin-top:60px;">
+                <h3 style="font-size:1.6em; color:#3949AB; text-align:left; margin-bottom:25px;">
+                    Livros em Destaque
+                </h3>
+
+                <p:carousel value="#{lojaBean.livros}" var="livro" numVisible="3" circular="true" autoplayInterval="0">
+                    <p:panel style="text-align:center; background:white; border-radius:15px; 
+                                    padding:25px; box-shadow:0 3px 8px rgba(0,0,0,0.1); transition:0.3s;">
+                        <h:graphicImage value="#{livro.imagem}" 
+                                        style="width:120px; height:180px; border-radius:10px; margin-bottom:10px;" />
+                        <h:outputText value="#{livro.nome}" style="display:block; font-size:1.2em; font-weight:bold; margin:8px 0;" />
+                        <h:outputText value="#{livro.autor}" style="display:block; color:gray; margin-bottom:8px;" />
+                        <h:outputText value="R$ #{livro.preco}" 
+                                      style="display:block; font-weight:bold; color:#3949AB; margin-bottom:15px;" />
+                                      
+
+                        <div style="display:flex; justify-content:center; gap:10px;">
+                            <p:commandButton value="Ver detalhes" 
+                                             icon="pi pi-info-circle"
+                                             action="#{lojaBean.verDetalhes(livro)}"
+                                             ajax="false"
+                                             style="background-color:#3949AB; border:none; border-radius:25px; padding:8px 15px;" />
+                            <p:commandButton value="Comprar"
+                                             icon="pi pi-shopping-cart"
+                                             actionListener="#{lojaBean.adicionarAoCarrinho(livro)}"
+                                             style="background-color:#4CAF50; border:none; border-radius:25px; padding:8px 15px;" />
+                        </div>
+                    </p:panel>
+                </p:carousel>
+            </div>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+
+

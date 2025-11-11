@@ -1,0 +1,79 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="template.xhtml">
+
+    <ui:define name="titulo">Meu Perfil</ui:define>
+
+    <ui:define name="conteudo">
+        <h:form id="formPerfil" style="margin: 50px auto; width: 90%; max-width: 700px;">
+
+            <!-- Quando o usuário estiver logado -->
+            <h:panelGroup rendered="#{usuarioBean.logado}" layout="block">
+
+                <p:panel header="👤 Meu Perfil"
+                         style="background-color: #fff;
+                                border-radius: 15px;
+                                padding: 30px;
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+
+                    <h:panelGrid columns="2"
+                                 columnClasses="label,value"
+                                 style="width:100%; font-size:16px; border-spacing: 10px 15px;">
+
+                        <h:outputText value="Nome:" style="font-weight:bold; color:#3949AB;" />
+                        <h:outputText value="#{usuarioBean.usuario.nome}" style="color:#333;" />
+
+                        <h:outputText value="E-mail:" style="font-weight:bold; color:#3949AB;" />
+                        <h:outputText value="#{usuarioBean.usuario.email}" style="color:#333;" />
+
+                        <h:outputText value="Função:" style="font-weight:bold; color:#3949AB;" />
+                        <h:outputText value="#{usuarioBean.role}" style="color:#333;" />
+
+                    </h:panelGrid>
+
+                    <hr style="border: none; height: 1px; background-color: #ddd; margin: 25px 0;" />
+
+                    <div style="text-align: right;">
+                       
+
+                        <p:commandButton value="Sair"
+                                         icon="pi pi-sign-out"
+                                         action="#{usuarioBean.logout}"
+                                         style="background-color: #E53935; color: white; border: none;
+                                                border-radius: 6px; padding: 8px 16px;" />
+                    </div>
+
+                </p:panel>
+
+            </h:panelGroup>
+
+            <!-- Quando o usuário NÃO estiver logado -->
+            <h:panelGroup rendered="#{!usuarioBean.logado}" layout="block" style="text-align:center; margin-top: 100px;">
+
+                <p:panel header="Acesso Necessário"
+                         style="max-width:500px; margin:auto; background-color:white;
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.15); border-radius:15px; padding:25px;">
+                    <h:outputText value="Você precisa estar logado para visualizar seu perfil."
+                                  style="font-size: 16px; color:#555;" />
+                    <div style="margin-top:25px;">
+                        <p:commandButton value="Entrar"
+                                         icon="pi pi-sign-in"
+                                         action="login.xhtml?faces-redirect=true"
+                                         style="background-color:#3949AB; color:white; border:none; border-radius:6px;
+                                                padding:8px 16px; margin-right:10px;" />
+
+                        <p:commandButton value="Cadastre-se"
+                                         icon="pi pi-user-plus"
+                                         action="cadastro.xhtml?faces-redirect=true"
+                                         style="background-color:#607D8B; color:white; border:none; border-radius:6px;
+                                                padding:8px 16px;" />
+                    </div>
+                </p:panel>
+
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title><ui:insert name="titulo">Livraria Online</ui:insert></title>
+	<!-- PrimeIcons -->
+	<h:outputStylesheet name="primeicons/primeicons.css"
+		library="primefaces" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+		<link rel="icon" type="image/png" href="https://m.media-amazon.com/images/S/amzn-author-media-prod/c05t6e5ib0i6np0ptj9dj3fuv.jpg" />
+	<!-- CSS Global -->
+	<h:outputStylesheet>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        background-color: #f3f5fa;
+        color: #333;
+    }
+
+    /* ======= TOPBAR ======= */
+    .topbar {
+        background-color: #3949AB;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 40px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    height: 38px; /* menor e proporcional à topbar */
+    width: 38px;
+    border-radius: 25%; /* agora é redondo mesmo */
+    object-fit: cover;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+    .topbar h2 {
+        margin: 0;
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+
+    .topbar .icons i {
+        margin-left: 25px;
+        font-size: 1.5em;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .topbar .icons i:hover {
+        transform: scale(1.2);
+    }
+
+    /* ======= SIDEBAR ======= */
+    .ui-sidebar {
+        background-color: #f9f9fb !important;
+        border-left: 3px solid #3949AB;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    .menu-header {
+        background-color: #3949AB;
+        color: white;
+        text-align: center;
+        padding: 25px 15px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .menu-header i {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+    }
+
+    .menu-header h:outputText {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .menu-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .menu-buttons .p-button {
+        width: 80%;
+        border: none;
+        background-color: white !important;
+        color: #3949AB !important;
+        font-weight: bold;
+    }
+
+    .menu-section {
+        margin-top: 25px;
+    }
+
+    .menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 18px;
+        background: #f5f6fc;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .menu-item:hover {
+        background: #e0e1fa;
+    }
+
+    .menu-item i {
+        color: #3949AB;
+        font-size: 1.3em;
+    }
+
+    .menu-item a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+    }
+
+    /* ======= CONTEÚDO ======= */
+    .content {
+        padding: 40px;
+        min-height: 80vh;
+    }
+
+    /* ======= RODAPÉ ======= */
+    .footer-nav {
+        background-color: #3949AB;
+        color: white;
+        text-align: center;
+        padding: 15px;
+        font-size: 0.9em;
+        box-shadow: 0 -2px 6px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 768px) {
+        .topbar {
+            padding: 15px 20px;
+        }
+        .content {
+            padding: 20px;
+        }
+    }
+</h:outputStylesheet>
+	
+</h:head>
+
+
+<h:body>
+    <h:form>
+        <p:growl id="messages" showDetail="true" life="3000" />
+    </h:form>
+
+    <!-- Topbar -->
+<div class="topbar">
+    <div class="logo-container">
+        <img src="https://m.media-amazon.com/images/S/amzn-author-media-prod/c05t6e5ib0i6np0ptj9dj3fuv.jpg"
+             alt="Logo Book Store"
+             class="logo-img" />
+    </div>
+    
+
+    <div class="icons">
+    <h:form style="display:inline;">
+        <!-- Mostrar apenas se estiver logado -->
+        <h:panelGroup rendered="#{usuarioBean.logado}">
+            <h:outputText value="Olá, #{usuarioBean.usuario.nome}!" style="margin-right:10px;" />
+            <p:commandButton value="Sair" icon="pi pi-sign-out" 
+                             action="#{usuarioBean.logout}"
+                             style="background:none;border:none;color:white;font-weight:bold;" />
+        </h:panelGroup>
+
+        <!-- Mostrar botões de login/cadastro apenas se NÃO estiver logado -->
+        <h:panelGroup rendered="#{!usuarioBean.logado}">
+            <p:commandButton value="Entrar" icon="pi pi-sign-in"
+                             action="login.xhtml"
+                             style="background:none;border:none;color:white;font-weight:bold;" />
+            <p:commandButton value="Cadastre-se" icon="pi pi-user-plus"
+                             action="cadastro.xhtml"
+                             style="background:none;border:none;color:white;font-weight:bold;margin-left:5px;" />
+        </h:panelGroup>
+    </h:form>
+
+        <i class="pi pi-shopping-cart"
+           title="Carrinho"
+           style="cursor:pointer;"
+           onclick="window.location='carrinho.xhtml'" />
+
+        <i class="pi pi-bars" title="Menu" onclick="PF('menuLateral').show()"></i>
+    </div>
+</div>
+
+
+    <!-- Sidebar -->
+    <p:sidebar widgetVar="menuLateral" position="right" style="width:280px;">
+        <div class="menu-header">
+            <i class="pi pi-user"></i>
+            <br/>
+            <h:panelGroup rendered="#{usuarioBean.logado}">
+                <h:outputText value="#{usuarioBean.usuario.nome}" />
+                <div class="menu-buttons">
+                    <p:commandButton value="Sair" icon="pi pi-sign-out"
+                                     action="#{usuarioBean.logout}"
+                                     styleClass="p-button-danger" />
+                </div>
+            </h:panelGroup>
+
+            <h:panelGroup rendered="#{!usuarioBean.logado}">
+                <h:outputText value="USUÁRIO SEM CONTA" />
+                <br/>
+                <br/>
+                <div class="menu-buttons">
+                    <p:commandButton value="Entrar" icon="pi pi-sign-in"
+                                     action="login.xhtml?faces-redirect=true" />
+                    <p:commandButton value="Cadastre-se" icon="pi pi-user-plus"
+                                     action="cadastro.xhtml?faces-redirect=true" />
+                </div>
+            </h:panelGroup>
+        </div>
+
+        <div class="menu-section">
+            <div class="menu-item">
+                <i class="pi pi-home"></i>
+                <h:link outcome="index" value="Início" />
+            </div>
+            <div class="menu-item">
+                <i class="pi pi-book"></i>
+                <h:link outcome="loja.xhtml" value="Todos os livros" />
+            </div>
+            <div class="menu-item">
+    <i class="pi pi-heart"></i>
+    <h:link outcome="wishlist" value="Wishlist" />
+</div>
+            <div class="menu-item">
+                <i class="pi pi-sign-in"></i>
+                <h:link outcome="usuarioInfo.xhtml" value="Meu Perfil" />
+            </div>
+        </div>
+    </p:sidebar>
+
+    <!-- Conteúdo variável -->
+    <div class="content">
+        <ui:insert name="conteudo">
+            <h2>Bem-vindo à Book Store</h2>
+            <p>Explore nossos livros, descubra ofertas e encontre sua próxima leitura favorita!</p>
+        </ui:insert>
+    </div>
+
+    <!-- Rodapé -->
+    <div class="footer-nav" 
+     style="display:flex; justify-content:space-between; align-items:center; 
+            padding:15px 30px; background:#3949AB; color:white;">
+    
+    <!-- Texto do rodapé -->
+    <span>© 2025 Livraria Online — Todos os direitos reservados.</span>
+    
+    <!-- Link do GitHub com ícone info -->
+    <h:outputLink value="https://github.com/IvanGabrielkg" target="_blank" 
+                  style="text-decoration:none; color:white; font-size:1.5em;">
+        <i class="pi pi-info"></i>
+    </h:outputLink>
+</div>
+
+
+</h:body>
+</html>

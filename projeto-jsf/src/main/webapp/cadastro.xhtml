@@ -1,0 +1,41 @@
+<ui:composition template="template.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <ui:define name="titulo">Cadastro</ui:define>
+
+    <ui:define name="conteudo">
+        <h:form style="max-width:400px; margin:50px auto; background:white; padding:30px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+            <h2 style="text-align: center; color: #3949AB;">Crie sua conta</h2>
+            <br />
+            <p:messages id="msgs" showDetail="true" autoUpdate="true" />
+
+            <!-- Campos do cadastro -->
+            <p:inputText value="#{usuarioBean.usuario.nome}" placeholder="Nome"
+                         required="true" style="width:100%;" />
+            <br /><br />
+
+            <p:inputText value="#{usuarioBean.usuario.email}" placeholder="E-mail"
+                         required="true" style="width:100%;" />
+            <br /><br />
+
+            <p:password value="#{usuarioBean.usuario.senha}" placeholder="Senha"
+                        required="true" feedback="true" style="width:100%;" />
+            <br /><br />
+            <p:password value="#{usuarioBean.confirmarSenha}" placeholder="Confirmar senha"
+            required="true" feedback="true" style="width:100%;" />
+          <br /><br />
+
+            <!-- botão de cadastro -->
+            <p:commandButton value="Cadastrar" icon="pi pi-user-plus"
+                             action="#{usuarioBean.cadastrar}" update="msgs"
+                             style="width:100%; background-color:#3949AB; border:none;" />
+            <br /><br />
+
+            <h:link outcome="login" value="Já tem uma conta? Faça login"
+                    style="display:block; text-align:center; color:#3949AB;" />
+        </h:form>
+    </ui:define>
+</ui:composition>
