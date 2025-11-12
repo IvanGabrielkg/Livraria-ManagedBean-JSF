@@ -5,10 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 	<ui:define name="titulo">#{lojaBean.livroSelecionado.nome}</ui:define>
 	<ui:define name="conteudo">
-		<h:form
-			style="display:flex; justify-content:center; padding:50px; background-color:#f9f9f9;">
-			<div
-				style="display: flex; gap: 40px; background: white; border-radius: 15px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); padding: 40px; width: 85%;">
+		<h:form style="display:flex; justify-content:center; padding:50px; background-color:#f9f9f9;">
+			<div style="display: flex; gap: 40px; background: white; border-radius: 15px; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15); padding: 40px; width: 85%;">
 				<!-- 📘 Capa do livro -->
 				<div style="flex: 1; text-align: center;">
 					<h:graphicImage value="#{lojaBean.livroSelecionado.imagem}"
@@ -51,6 +49,8 @@
 						</h:outputText>
 					</h3>
 					<!-- 🛒 Botões -->
+					<p:messages id="msgs" autoUpdate="true" showDetail="true" closable="true" />
+                    
 					<div style="margin-top: 25px;">
 						<p:commandButton value="Adicionar ao Carrinho"
 							icon="pi pi-shopping-cart"
@@ -66,8 +66,7 @@
 							style="margin-left:15px; background-color:#E0E0E0; color:#333; border:none; font-size:1.1em; padding:12px 25px; border-radius:8px;" />
 					</div>
 					<!-- 💬 Avaliações -->
-					<div
-						style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">
+					<div style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">
 						<h4 style="color: #3949AB; font-size: 1.2em;">Avaliações dos
 							Leitores</h4>
 						<p style="color: #666; margin-top: 10px;">⭐️⭐️⭐️⭐️☆ (4.5 de 5
